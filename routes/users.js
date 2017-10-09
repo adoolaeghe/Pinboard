@@ -46,7 +46,7 @@ router.post('/register', function(req, res){
     });
 
     req.flash('success_msg', 'You are now registered');
-    res.redirect('/pinboards');
+    res.redirect('/users/login');
   }
 });
 
@@ -81,7 +81,7 @@ passport.deserializeUser(function(id, done) {
 });
 
 router.post('/login',
-  passport.authenticate('local', {successRedirect:'/pinboards', failureRedirect: 'users/login' , failureFlash: true}),
+  passport.authenticate('local', {successRedirect:'/pinboards', failureRedirect: '/pinboards' , failureFlash: true}),
   function(req, res) {
     console.log('he');
     res.redirect('/pinboards');

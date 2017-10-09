@@ -3,7 +3,8 @@ var router = express.Router();
 var Pinboard = require('../models/pinboard');
 
 router.get('/', ensureAuthenticated, function(req, res){
-  res.render('pinboards');
+  res.render('pinboards', { username: req.user.username });
+  console.log(typeof req.user._id)
 });
 
 function ensureAuthenticated(req, res, next){
@@ -11,7 +12,7 @@ function ensureAuthenticated(req, res, next){
     return next();
   } else {
     req.flash('error_msg', 'You are not logged in');
-    res.redirect('/users/login');
+    res.redirect('/');
   }
 }
 
@@ -22,10 +23,10 @@ router.get('/new', function(req, res){
 router.post('/pinboard', function(req, res){
   var pinboardName = req.body.pinboardName;
   var bookmarklets = req.body.bookmarklets;
-  var userId = req.body.user_id;
-  console.log(req.user._id);
+  var userId = req.user._id;
+  console.log(userId);
   var newPinboard = new Pinboard({
-    user: userId,
+    userID: userId,
     name: pinboardName,
     bookmarklets: bookmarklets
   });
@@ -36,7 +37,7 @@ router.post('/pinboard', function(req, res){
   });
 
   req.flash('success_msg', 'Pinboard created');
-  res.redirect('/pinboard/login');
+  res.redirect('/pinboards');
 });
 
 module.exports = router;
