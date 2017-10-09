@@ -15,6 +15,7 @@ var db = mongoose.connection;
 
 var routes = require('./routes/index');
 var Users = require('./routes/users');
+var Pinboards = require('./routes/pinboards');
 
 //init APP
 
@@ -75,6 +76,7 @@ app.use(function(req, res, next) {
 
 app.use('/', routes);
 app.use('/users', Users);
+app.use('/pinboards', Pinboards);
 
 app.set('port', (process.env.PORT || 3000));
 
