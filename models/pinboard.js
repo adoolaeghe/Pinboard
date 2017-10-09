@@ -2,6 +2,11 @@ var mongoose = require('mongoose');
 
 var PinboardSchema = mongoose.Schema({
 
+  userID: {
+    type: String,
+    reference: 'UserSchema'
+  },
+
   name: {
     type: String,
     index: true
