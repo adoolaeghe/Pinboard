@@ -9,9 +9,11 @@ router.get('/pinboard', function(req, res){
 
 router.post('/pinboard', function(req, res){
   var pinboardName = req.body.pinboardName;
+  var bookmarklets = req.body.bookmarklets;
   console.log('here');
   var newPinboard = new Pinboard({
-    name: pinboardName
+    name: pinboardName,
+    bookmarklets: bookmarklets
   });
 
   Pinboard.createPinboard(newPinboard,function(err, pinboard){
