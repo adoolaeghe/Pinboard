@@ -10,11 +10,11 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/loginapp');
+mongoose.connect('mongodb://localhost/pinboard');
 var db = mongoose.connection;
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var Users = require('./routes/users');
 
 //init APP
 
@@ -55,6 +55,9 @@ app.use(expressValidator({
   }
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 // connect-flash
 app.use(flash());
 
@@ -68,7 +71,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/users', Users);
 
 app.set('port', (process.env.PORT || 3000));
 

@@ -51,6 +51,12 @@ body {
   font-size: 1.5rem;
 }
 
+.image {
+
+  width: 600px;
+  height: 600px;
+}
+
 /* Supporting marketing content */
 .marketing {
   margin: 3rem 0;
