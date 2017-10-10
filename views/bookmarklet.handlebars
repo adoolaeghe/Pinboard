@@ -1,13 +1,15 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 
-<form  method='post' action='/bookmarklets/new'>
+<form  method='post' action='bookmarklets/new'>
   <input type="text" class="form-control" name='bookmarklets'>
-  <button type="submit" class="btn btn-default"> Add a bookmarklets </button>
+  <button type="submit" value= {{query}} name='bookmarkId' class="btn btn-default"> Add a bookmarklets </button>
 </form>
 <div>
   {{# each items}}
-  <a class="list-group-item clearfix">
-      {{this.bookmarklets}}
-  </a>
+    {{# each this.bookmarklets}}
+    <a class="list-group-item clearfix">
+      {{this}}
+    </a>
+    {{/each}}
   {{/each}}
 </div>

@@ -49,13 +49,27 @@ router.get('/bookmarklets/', function(req,res){
       }
     }, function(){
       db.close();
-      res.render('bookmarklet', { items: resultArray });
+      res.render('bookmarklet', {query: req.query['id'], items: resultArray });
     });
   });
 });
 
 router.post('/bookmarklets', function(req,res){
+  res.redirect('/pinboards/bookmarklets?id='+ req.body.bookmarkId);
+});
+
+router.post('/bookmarklets/new', function(req,res){
+  var bookmarklet = req.body.bookmarklets;
   console.log(req.body.bookmarkId);
+  console.log(bookmarklet);
+  mongo.connect(url, function(err, db) {
+    db.collection('pinboards').find({}).forEach(function(doc){
+      if(doc._id == req.body.bookmarkId){
+        doc.bookmarklets.push(bookmarklet);
+        db.collection('pinboards').save(doc);
+      }
+    });
+  });
   res.redirect('/pinboards/bookmarklets?id='+ req.body.bookmarkId);
 });
 
