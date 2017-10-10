@@ -14,6 +14,7 @@ router.get('/', ensureAuthenticated, function(req, res){
     pinboard.forEach(function(doc, err) {
       if(doc.userID == req.user._id){
         assert.equal(null, err);
+        console.log(doc.bookmarklets.length);
         resultArray.push(doc);
       }
     }, function(){
@@ -34,6 +35,28 @@ function ensureAuthenticated(req, res, next){
 
 router.get('/new', function(req, res){
   res.render('newPinboard');
+});
+
+router.get('/bookmarklets/', function(req,res){
+  var resultArray = [];
+  mongo.connect(url, function(err, db) {
+    assert.equal(null, err);
+    var pinboard = db.collection('pinboards').find();
+    pinboard.forEach(function(doc, err) {
+      if(doc._id == req.query['id']){
+        assert.equal(null, err);
+        resultArray.push(doc);
+      }
+    }, function(){
+      db.close();
+      res.render('bookmarklet', { items: resultArray });
+    });
+  });
+});
+
+router.post('/bookmarklets', function(req,res){
+  console.log(req.body.bookmarkId);
+  res.redirect('/pinboards/bookmarklets?id='+ req.body.bookmarkId);
 });
 
 router.post('/pinboard', function(req, res){
