@@ -12,8 +12,10 @@ router.get('/', ensureAuthenticated, function(req, res){
     assert.equal(null, err);
     var pinboard = db.collection('pinboards').find();
     pinboard.forEach(function(doc, err) {
-      assert.equal(null, err);
-      resultArray.push(doc);
+      if(doc.userID == req.user._id){
+        assert.equal(null, err);
+        resultArray.push(doc);
+      }
     }, function(){
       db.close();
       res.render('pinboards', { username: req.user.username, items: resultArray });
