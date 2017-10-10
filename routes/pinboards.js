@@ -1,10 +1,24 @@
 var express = require('express');
 var router = express.Router();
+var mongo = require('mongodb');
 var Pinboard = require('../models/pinboard');
+var assert = require('assert');
+
+var url = 'mongodb://localhost:27017/pinboard';
 
 router.get('/', ensureAuthenticated, function(req, res){
-  res.render('pinboards', { username: req.user.username });
-  console.log(typeof req.user._id)
+  var resultArray = [];
+  mongo.connect(url, function(err, db) {
+    assert.equal(null, err);
+    var pinboard = db.collection('pinboards').find();
+    pinboard.forEach(function(doc, err) {
+      assert.equal(null, err);
+      resultArray.push(doc);
+    }, function(){
+      db.close();
+      res.render('pinboards', { username: req.user.username, items: resultArray });
+    });
+  });
 });
 
 function ensureAuthenticated(req, res, next){
@@ -32,8 +46,8 @@ router.post('/pinboard', function(req, res){
   });
 
   Pinboard.createPinboard(newPinboard,function(err, pinboard){
-      if(err) throw err;
-      console.log(pinboard);
+    if(err) throw err;
+    console.log(pinboard);
   });
 
   req.flash('success_msg', 'Pinboard created');

@@ -2,3 +2,10 @@
 <form  method='get' action='/pinboards/new'>
   <button type="submit" class="btn btn-default">add a pinboad</button>
 </form>
+<div>
+  {{# each items}}
+    <article>
+      <div> {{ this.name }}
+    </article>
+  {{/each}}
+</div>
