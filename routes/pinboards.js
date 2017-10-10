@@ -8,13 +8,13 @@ var url = 'mongodb://localhost:27017/pinboard';
 
 router.get('/', ensureAuthenticated, function(req, res){
   var resultArray = [];
+  var userId = req.user._id;
   mongo.connect(url, function(err, db) {
     assert.equal(null, err);
     var pinboard = db.collection('pinboards').find();
     pinboard.forEach(function(doc, err) {
-      if(doc.userID == req.user._id){
+      if(doc.userID == userId){
         assert.equal(null, err);
-        console.log(doc.bookmarklets.length);
         resultArray.push(doc);
       }
     }, function(){
@@ -39,17 +39,18 @@ router.get('/new', function(req, res){
 
 router.get('/bookmarklets/', function(req,res){
   var resultArray = [];
+  var id = req.query['id'];
   mongo.connect(url, function(err, db) {
     assert.equal(null, err);
     var pinboard = db.collection('pinboards').find();
     pinboard.forEach(function(doc, err) {
-      if(doc._id == req.query['id']){
+      if(doc._id == id){
         assert.equal(null, err);
         resultArray.push(doc);
       }
     }, function(){
       db.close();
-      res.render('bookmarklet', {query: req.query['id'], items: resultArray });
+      res.render('bookmarklet', {query: id, items: resultArray });
     });
   });
 });
@@ -60,8 +61,7 @@ router.post('/bookmarklets', function(req,res){
 
 router.post('/bookmarklets/new', function(req,res){
   var bookmarklet = req.body.bookmarklets;
-  console.log(req.body.bookmarkId);
-  console.log(bookmarklet);
+
   mongo.connect(url, function(err, db) {
     db.collection('pinboards').find({}).forEach(function(doc){
       if(doc._id == req.body.bookmarkId){
@@ -77,7 +77,6 @@ router.post('/pinboard', function(req, res){
   var pinboardName = req.body.pinboardName;
   var bookmarklets = req.body.bookmarklets;
   var userId = req.user._id;
-  console.log(userId);
   var newPinboard = new Pinboard({
     userID: userId,
     name: pinboardName,
@@ -86,7 +85,6 @@ router.post('/pinboard', function(req, res){
 
   Pinboard.createPinboard(newPinboard,function(err, pinboard){
     if(err) throw err;
-    console.log(pinboard);
   });
 
   req.flash('success_msg', 'Pinboard created');

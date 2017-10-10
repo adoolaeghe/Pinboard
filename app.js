@@ -78,8 +78,5 @@ app.use('/', routes);
 app.use('/users', Users);
 app.use('/pinboards', Pinboards);
 
-app.set('port', (process.env.PORT || 3000));
 
-app.listen(app.get('port'), function(){
-  console.log('Server started on port 3000');
-});
+module.exports = app.listen(3000);
