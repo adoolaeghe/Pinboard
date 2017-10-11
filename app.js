@@ -56,11 +56,12 @@ app.use(expressValidator({
   }
 }));
 
+// sessions
 app.use(passport.initialize());
 app.use(passport.session());
+
+// flash messages for authentication errors
 app.use(flash());
-
-
 app.use(function(req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('erros_msg');
@@ -70,6 +71,7 @@ app.use(function(req, res, next) {
 });
 
 
+//routes
 
 app.use('/', routes);
 app.use('/users', Users);

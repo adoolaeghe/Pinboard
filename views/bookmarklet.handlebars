@@ -1,7 +1,10 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-<form  method='post' action='bookmarklets/new'>
-  <input type="text" class="form-control" name='bookmarklets'>
-  <button type="submit" value= {{query}} name='bookmarkId' class="btn btn-default"> Add a bookmarklets </button>
+<form method='post' action='bookmarklets/new'>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Add a bookmarklet</label>
+    <input type="text" class="form-control" aria-describedby="emailHelp" name='bookmarklets' placeholder="URL">
+  </div>
+  <button type="submit" value= {{query}} name='bookmarkId' class="btn btn-primary"> Add a bookmarklets </button>
 </form>
 <div>
   {{# each items}}
