@@ -24,20 +24,11 @@ router.get('/', ensureAuthenticated, function(req, res){
   });
 });
 
-function ensureAuthenticated(req, res, next){
-  if(req.isAuthenticated()){
-    return next();
-  } else {
-    req.flash('error_msg', 'You are not logged in');
-    res.redirect('/');
-  }
-}
-
 router.get('/new', function(req, res){
   res.render('newPinboard');
 });
 
-router.get('/bookmarklets/', function(req,res){
+router.get('/bookmarklets', function(req,res){
   var resultArray = [];
   var id = req.query['id'];
   mongo.connect(url, function(err, db) {
@@ -64,7 +55,7 @@ router.post('/bookmarklets/new', function(req,res){
 
   mongo.connect(url, function(err, db) {
     db.collection('pinboards').find({}).forEach(function(doc){
-      if(doc._id == req.body.bookmarkId){
+      if(doc._id == req.body.bookmarkId && bookmarklet != ""){
         doc.bookmarklets.push(bookmarklet);
         db.collection('pinboards').save(doc);
       }
@@ -91,4 +82,12 @@ router.post('/pinboard', function(req, res){
   res.redirect('/pinboards');
 });
 
+function ensureAuthenticated(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  } else {
+    req.flash('error_msg', 'You are not logged in');
+    res.redirect('/');
+  }
+}
 module.exports = router;

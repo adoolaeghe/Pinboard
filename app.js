@@ -58,11 +58,8 @@ app.use(expressValidator({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-// connect-flash
 app.use(flash());
 
-// Global Vars
 
 app.use(function(req, res, next) {
   res.locals.success_msg = req.flash('success_msg');

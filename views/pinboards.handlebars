@@ -4,16 +4,15 @@
 </div>
 <div>
   <p class="list-group-item active">My pinboard:</p>
-
   {{# each items}}
-  <a class="list-group-item clearfix">
-      {{this.name}}
-      <span class="pull-right">
-        <form  method='post' action='/pinboards/bookmarklets'>
-          <button type='submit' value= {{this._id}} name='bookmarkId' class="btn btn-default" aria-hidden="true"> View {{this.bookmarklets.length}} </button>
-        </form>
+    <a class="list-group-item clearfix">
+        {{this.name}}
+        <span class="pull-right">
+          <form  method='post' action='/pinboards/bookmarklets'>
+            <button type='submit' value= {{this._id}} name='bookmarkId' class="btn btn-default" aria-hidden="true"> View {{this.bookmarklets.length}} </button>
+          </form>
+        </span>
       </span>
-    </span>
-  </a>
+    </a>
   {{/each}}
 </div>

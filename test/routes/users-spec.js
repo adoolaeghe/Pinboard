@@ -1,6 +1,4 @@
-var dbUri = process.env.MONGOHQ_URL || 'mongodb://localhost/pinboard';
-var mongoose = require('mongoose');
-var db    = mongoose.connect(dbUri);
+var User = require('../../models/user.js');
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var expect = chai.expect;
@@ -9,12 +7,7 @@ var should = require('should');
 
 chai.use(chaiHttp);
 
-describe('Palindromes', function() {
-
-  after( function(done) {
-    mongoose.connection.db.dropDatabase(done);
-  });
-
+describe('Users', function() {
   describe('/GET login', function() {
     it('it should render the login page', function(done) {
       chai.request(app)
@@ -36,6 +29,34 @@ describe('Palindromes', function() {
           done();
         }
       );
+    });
+  });
+  describe('/GET logout', function() {
+    it('it should render a when log', function(done) {
+      chai.request(app)
+      .get('/users/logout')
+      .end(function(err, res) {
+          expect(res).to.have.status(200);
+          expect(res.type).to.equal('text/html');
+          done();
+        }
+      );
+    });
+  });
+  describe('/POST login', function(){
+    it('it should login', function(done) {
+      var user = new User({username: 'username', password: 'password', email: 'email',name: 'name'});
+      user.save((function(err, res) {
+        chai.request(app)
+        .post('/users/login')
+        .send(user)
+        .end(function(err, res) {
+          expect(res).to.have.status(200);
+          expect(res.type).to.equal('text/html');
+          expect('Location', '/pinboards');
+          done();
+        });
+      }));
     });
   });
 });
