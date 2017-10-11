@@ -24,11 +24,11 @@ router.get('/', ensureAuthenticated, function(req, res){
   });
 });
 
-router.get('/new', function(req, res){
+router.get('/new', ensureAuthenticated, function(req, res){
   res.render('newPinboard');
 });
 
-router.get('/bookmarklets', function(req,res){
+router.get('/bookmarklets', ensureAuthenticated, function(req,res){
   var resultArray = [];
   var id = req.query['id'];
   mongo.connect(url, function(err, db) {
