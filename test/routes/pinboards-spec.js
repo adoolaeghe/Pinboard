@@ -65,19 +65,19 @@ describe('Pinboard', function() {
       );
     });
   });
-  // describe('/POST pinboard', function(){
-  //   it('it post a new pinboard', function(done) {
-  //     var pinboard = new Pinboard({userID: 'userId',name: 'name',bookmarklets: ['bookmarklets']});
-  //     pinboard.save((function(err, res) {
-  //       chai.request(app)
-  //       .post('/pinboards/pinboard')
-  //       .send(pinboard)
-  //       .end(function(err, res) {
-  //         expect(res).to.have.status(200);
-  //         expect(res.type).to.equal('text/html');
-  //         done();
-  //       });
-  //     }));
-  //   });
-  // });
+  describe('/POST pinboard', function(){
+    it('it post a new pinboard', function(done) {
+      var pinboard = new Pinboard({userID: 'userId',name: 'name',bookmarklets: ['bookmarklets']});
+      pinboard.save((function(err, res) {
+        chai.request(app)
+        .post('/pinboards/pinboard')
+        .send(pinboard)
+        .end(function(err, res) {
+          expect(res).to.have.status(200);
+          expect(res.type).to.equal('text/html');
+          done();
+        });
+      }));
+    });
+  });
 });

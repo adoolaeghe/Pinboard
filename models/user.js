@@ -34,7 +34,7 @@ module.exports.createUser = function (newUser, callback){
     User.findOne(query, callback);
   };
 
-  module. exports.getUserById = function(id, callback){
+  module.exports.getUserById = function(id, callback){
     User.findById(id, callback);
   };
 
