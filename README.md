@@ -1,8 +1,5 @@
 # Pinboard_Tech_Test
 
-We followed this [specification](SPECIFICATION.md).
-
----
 ### Running the app
 
 In your terminal:
